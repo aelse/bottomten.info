@@ -36,6 +36,8 @@ var rdtPosts = {
   renderPosts : function(data){
     var ul = $("<ul/>");
     for(var i in data.children){
+      // hack
+      if(i > 10) break;
       ul.append(rdtPosts.renderPost(data.children[i].data));
     }
     return ul;
