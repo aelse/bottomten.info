@@ -25,6 +25,7 @@ var rdtCmts = {
 var rdtPosts = {
   receivePosts : function(data){
     subreddit = data.data.children[0].data.subreddit;
+    subreddit = 'BottomTenLeague'; // hack
     html = $('<div class="rdtPosts"/>');
     html.append('<h2>Latest posts from /r/'+subreddit+'</h2>');
     html.append(rdtPosts.renderPosts(data.data));
@@ -43,7 +44,6 @@ var rdtPosts = {
   renderPost : function(data){
     var li = $("<li/>");
     li.append($('<small class="rdtPostsMeta"><a class="rdtPostsAuthor" href="http://reddit.com/u/'+data.author+'">'+data.author+'</a> '+ (data.ups - data.downs) +' points</small>'));
-    //li.append($('<small class="rdtPostsMeta"><a class="rdtPostsTitle" href="http://reddit.com/'+data.permalink+'">'+data.title+'</a> '+ (data.ups - data.downs) +' points, posted by <a class="rdtPostsAuthor" href="http://reddit.com/u/'+data.author+'">'+data.author+'</a></small>'));
     li.append($('<p class="rdtPostsBody"/>').html(data.title+' <small><a href="http://reddit.com'+data.permalink+'">»</a></small></p>'));
     if(data.replies && data.replies !== "") li.append(rdtPosts.renderComments(data.replies.data));
     return li;
