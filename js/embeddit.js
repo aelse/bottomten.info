@@ -15,7 +15,7 @@ var rdtCmts = {
   },
   renderComment : function(data){
     var li = $("<li/>");
-    li.append($('<small class="rdtCmtsMeta"><a class="rtdCmtsAuthor" href="http://reddit.com/u/'+data.author+'">'+data.author+'</a> '+ (data.ups - data.downs) +' points</small>'));
+    li.append($('<small class="rdtCmtsMeta"><a class="rdtCmtsAuthor" href="http://reddit.com/u/'+data.author+'">'+data.author+'</a> '+ (data.ups - data.downs) +' points</small>'));
     li.append($('<p class="rdtCmtsBody"/>').html(data.body_html).text());
     if(data.replies && data.replies !== "") li.append(rdtCmts.renderComments(data.replies.data));
     return li;
@@ -28,6 +28,7 @@ var rdtPosts = {
     subreddit = data.data.children[0].data.subreddit;
     console.log(subreddit);
     html = $('<div class="rdtPosts"/>');
+    html.append('<span class="rdtPostsTitle">Latest posts from /r/'+subreddit+'</span>');
     html.append(rdtPosts.renderPosts(data.data));
     html.append('<a class="rdtPostsJoin" href="http://www.reddit.com/r/'+subreddit+'">Join the discussion at reddit.com!</a>');
     $("[data-rdtsubreddit='"+subreddit+"']").html(html);
@@ -41,9 +42,9 @@ var rdtPosts = {
   },
   renderPost : function(data){
     var li = $("<li/>");
-    li.append($('<small class="rdtPostsMeta"><a class="rtdPostsTitle" href="http://reddit.com/'+data.permalink+'">'+data.title+'</a> '+ (data.ups - data.downs) +' points</small>'));
-    //li.append($('<small class="rdtPostsMeta"><a class="rtdPostsAuthor" href="http://reddit.com/u/'+data.author+'">'+data.author+'</a> '+ (data.ups - data.downs) +' points</small>'));
-    //li.append($('<p class="rdtPostsBody"/>').html(data.body_html).text());
+    li.append($('<small class="rdtPostsMeta"><a class="rdtPostsAuthor" href="http://reddit.com/u/'+data.author+'">'+data.author+'</a> '+ (data.ups - data.downs) +' points</small>'));
+    //li.append($('<small class="rdtPostsMeta"><a class="rdtPostsTitle" href="http://reddit.com/'+data.permalink+'">'+data.title+'</a> '+ (data.ups - data.downs) +' points, posted by <a class="rdtPostsAuthor" href="http://reddit.com/u/'+data.author+'">'+data.author+'</a></small>'));
+    li.append($('<p class="rdtPostsBody"/>').html(data.title));
     if(data.replies && data.replies !== "") li.append(rdtPosts.renderComments(data.replies.data));
     return li;
   }
@@ -60,6 +61,7 @@ $.fn.rdtcmts = function(id) {
 
 $.fn.rdtposts = function(subreddit) {
   this.attr("data-rdtsubreddit", subreddit);
+  this.html('<div class="rdtPosts"><span class="rdtPostsTitle">Loading posts from /r/'+subreddit+' ...</span></div>');
   $.ajax({
     url: "http://www.reddit.com/r/"+subreddit+"/.json?sort=new",
     dataType: "jsonp",
