@@ -83,8 +83,9 @@
               </div>
               <div class="row">
               <h2>Stats</h2>
-              <p>Throughout the season this website will be updated with graphs showing performance of the teams throughout the league. Participants are encouraged at all times to gloat whenever they are at the top of the charts, cheerily mock the losers, and quietly sulk for the remainder of the time.</p>
+              <p>Throughout the season this website will be updated with graphs showing performance of the teams throughout the league. Participants are encouraged at all times to gloat whenever they are at the top of the charts, cheerily mock those in the "relegation zone", and quietly sulk for the remainder of their mid-table existence.</p>
               </div>
+              <p><a class="btn btn-default" href="#stats">Go to the stats »</a></p>
             </div><!-- /.col-lg-6 -->
             <div class="col-lg-6"> <!-- half a .col-lg-8 -->
               <a name="theleague"></a>
@@ -109,9 +110,12 @@
         </div><!-- /.col-lg-8 -->
         <div class="col-lg-4" id="redditPosts"></div>
       </div><!-- /.row -->
+
+      <!-- start of the Stats section -->
       <div class="row">
         <div class="col-lg-12">
           <a name="stats"></a>
+            <h2>Stats</h2>
         </div><!-- /.col-lg-12 -->
       </div><!-- /.row -->
 
@@ -137,9 +141,8 @@
 
 <script>
 $(function(){
-  //$("#comments").rdtcmts("1jblag");
-  //$("#redditPosts").rdtposts("BottomTenLeague");
-  $("#redditPosts").rdtposts("bottomtenleague");
+  $("#redditPosts").rdtposts("BottomTenLeague");
+  //$("#redditPosts").rdtposts("bottomtenleague");
 });
 </script>
   
