@@ -22,6 +22,32 @@ var rdtCmts = {
   }
 };
 
+var rdtPosts = {
+  receivePosts : function(data){
+    console.log('receivePosts callback');
+    subreddit = data.data.children[0].data.subreddit;
+    console.log(subreddit);
+    html = $('<div class="rdtPosts"/>');
+    html.append(rdtPosts.renderPosts(data.data));
+    html.append('<a class="rdtPostsJoin" href="http://www.reddit.com/r/'+subreddit+'">Join the discussion at reddit.com!</a>');
+    $("[data-rdtsubreddit='"+subreddit+"']").html(html);
+  },
+  renderPosts : function(data){
+    var ul = $("<ul/>");
+    for(var i in data.children){
+      ul.append(rdtPosts.renderPost(data.children[i].data));
+    }
+    return ul;
+  },
+  renderPost : function(data){
+    var li = $("<li/>");
+    li.append($('<small class="rdtPostsMeta"><a class="rtdPostsTitle" href="http://reddit.com/'+data.permalink+'">'+data.title+'</a> '+ (data.ups - data.downs) +' points</small>'));
+    //li.append($('<small class="rdtPostsMeta"><a class="rtdPostsAuthor" href="http://reddit.com/u/'+data.author+'">'+data.author+'</a> '+ (data.ups - data.downs) +' points</small>'));
+    //li.append($('<p class="rdtPostsBody"/>').html(data.body_html).text());
+    if(data.replies && data.replies !== "") li.append(rdtPosts.renderComments(data.replies.data));
+    return li;
+  }
+};
 $.fn.rdtcmts = function(id) {
   this.attr("data-rdtid", id);
   $.ajax({
@@ -29,6 +55,16 @@ $.fn.rdtcmts = function(id) {
     dataType: "jsonp",
     jsonp : "jsonp",
     jsonpCallback: "rdtCmts.receiveComments"
+  });
+};
+
+$.fn.rdtposts = function(subreddit) {
+  this.attr("data-rdtsubreddit", subreddit);
+  $.ajax({
+    url: "http://www.reddit.com/r/"+subreddit+"/.json?sort=new",
+    dataType: "jsonp",
+    jsonp : "jsonp",
+    jsonpCallback: "rdtPosts.receivePosts"
   });
 };
 
