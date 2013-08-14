@@ -28,7 +28,7 @@ var rdtPosts = {
     subreddit = data.data.children[0].data.subreddit;
     console.log(subreddit);
     html = $('<div class="rdtPosts"/>');
-    html.append('<span class="rdtPostsTitle">Latest posts from /r/'+subreddit+'</span>');
+    html.append('<h2>Latest posts from /r/'+subreddit+'</h2>');
     html.append(rdtPosts.renderPosts(data.data));
     html.append('<a class="rdtPostsJoin" href="http://www.reddit.com/r/'+subreddit+'">Join the discussion at reddit.com!</a>');
     $("[data-rdtsubreddit='"+subreddit+"']").html(html);
@@ -61,7 +61,7 @@ $.fn.rdtcmts = function(id) {
 
 $.fn.rdtposts = function(subreddit) {
   this.attr("data-rdtsubreddit", subreddit);
-  this.html('<div class="rdtPosts"><span class="rdtPostsTitle">Loading posts from /r/'+subreddit+' ...</span></div>');
+  this.html('<div class="rdtPosts"><h2>Loading posts from /r/'+subreddit+' ...</h2></div>');
   $.ajax({
     url: "http://www.reddit.com/r/"+subreddit+"/.json?sort=new",
     dataType: "jsonp",
